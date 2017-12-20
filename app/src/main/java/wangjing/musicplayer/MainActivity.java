@@ -48,6 +48,15 @@ public class MainActivity extends AppCompatActivity {
         initOnClick();
     }
 
+    @Override
+    protected void onDestroy() {
+        mediaPlayer.release();
+        timer.cancel();
+        timer = null;
+        mediaPlayer = null;
+        super.onDestroy();
+    }
+
     private void initView() {
         playBtn = findViewById(R.id.play_btn);
         view = findViewById(R.id.view);
