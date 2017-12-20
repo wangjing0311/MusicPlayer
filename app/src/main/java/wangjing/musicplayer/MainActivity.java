@@ -14,10 +14,16 @@ import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import com.github.angads25.filepicker.controller.DialogSelectionListener;
+import com.github.angads25.filepicker.model.DialogConfigs;
+import com.github.angads25.filepicker.model.DialogProperties;
+import com.github.angads25.filepicker.view.FilePickerDialog;
+
 import java.io.File;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import wangjing.musicplayer.utils.StringUtils;
 import wangjing.musicplayer.views.FftDrawable;
 import wangjing.musicplayer.views.WaveDrawable;
 
@@ -26,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
     private WaveDrawable waveDrawable;
     private FftDrawable fftDrawable;
+    private Button playSelectBtn;
     private Button playBtn;
     //    private WaveView visualizerView;
 //    private FftView fftView;
@@ -38,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
     private boolean isWave = false;
     private Timer timer;
     private boolean isSeekBarChanging;//互斥变量，防止进度条与定时器冲突。
+    private String wavFile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +66,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initView() {
+        playSelectBtn = findViewById(R.id.play_select_btn);
         playBtn = findViewById(R.id.play_btn);
         view = findViewById(R.id.view);
         playName = findViewById(R.id.play_name_tv);
@@ -73,17 +82,18 @@ public class MainActivity extends AppCompatActivity {
         } else {
             view.setBackgroundDrawable(isWave ? waveDrawable : fftDrawable);
         }
+        wavFile = "/mnt/sdcard/AAA-test/Lay Low.mp3";
+        playName.setText("Lay Low");
     }
 
     private void initData() {
-        final String wavPath = "/mnt/sdcard/AAA-test/Lay Low.mp3";
-        playName.setText("Lay Low");
-        if (!new File(wavPath).exists()) {
+        if (!new File(wavFile).exists()) {
             new android.support.v7.app.AlertDialog.Builder(MainActivity.this).setMessage("请先选择音频或录音！").show();
             return;
         }
         try {
-            mediaPlayer.setDataSource(wavPath);
+            mediaPlayer.reset();
+            mediaPlayer.setDataSource(wavFile);
             mediaPlayer.prepare();
             Visualizer mVisualizer = new Visualizer(mediaPlayer.getAudioSessionId());
             mVisualizer.setCaptureSize(Visualizer.getCaptureSizeRange()[0]);
@@ -126,6 +136,33 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initOnClick() {
+        playSelectBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DialogProperties properties = new DialogProperties();
+                properties.selection_mode = DialogConfigs.SINGLE_MODE;
+                properties.selection_type = DialogConfigs.FILE_SELECT;
+                properties.root = new File("/mnt/sdcard");
+                properties.error_dir = new File("/mnt/sdcard");
+
+                properties.extensions = new String[]{"wav"};
+
+                FilePickerDialog dialog = new FilePickerDialog(MainActivity.this, properties);
+                dialog.setTitle("Select a wav file");
+
+                dialog.setDialogSelectionListener(new DialogSelectionListener() {
+                    @Override
+                    public void onSelectedFilePaths(String[] files) {
+                        //files is the array of the paths of files selected by the Application User.
+                        wavFile = StringUtils.join(files, ',');
+//                        PreferencesUtils.putString(activity, WAV_PATH, wavFile);
+                        playName.setText(wavFile);
+                        initData();
+                    }
+                });
+                dialog.show();
+            }
+        });
         playBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
