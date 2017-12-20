@@ -128,23 +128,26 @@ public class MainActivity extends AppCompatActivity {
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
-                if(!isSeekBarChanging){
+                if (!isSeekBarChanging) {
                     playBar.setProgress(mediaPlayer.getCurrentPosition());
                 }
             }
-        },0,50);
+        }, 0, 50);
     }
 
     private void initOnClick() {
         playSelectBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (mediaPlayer.isPlaying()) {
+                    mediaPlayer.pause();
+                }
+                playBtn.setText("播放");
                 DialogProperties properties = new DialogProperties();
                 properties.selection_mode = DialogConfigs.SINGLE_MODE;
                 properties.selection_type = DialogConfigs.FILE_SELECT;
                 properties.root = new File("/mnt/sdcard");
                 properties.error_dir = new File("/mnt/sdcard");
-
                 properties.extensions = new String[]{"wav"};
 
                 FilePickerDialog dialog = new FilePickerDialog(MainActivity.this, properties);
@@ -218,6 +221,7 @@ public class MainActivity extends AppCompatActivity {
         public void onStartTrackingTouch(SeekBar seekBar) {
             isSeekBarChanging = true;
         }
+
         /*滑动结束后，重新设置值*/
         public void onStopTrackingTouch(SeekBar seekBar) {
             isSeekBarChanging = false;
