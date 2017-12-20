@@ -12,24 +12,24 @@ import android.view.View;
 /**
  * A simple class that draws waveform data received from a
  */
-public class VisualizerView extends View {
+public class WaveView extends View {
     private byte[] mBytes;
     private float[] mPoints;
     private Rect mRect = new Rect();
 
     private Paint mForePaint = new Paint();
 
-    public VisualizerView(Context context) {
+    public WaveView(Context context) {
         super(context);
         init();
     }
 
-    public VisualizerView(Context context, @Nullable AttributeSet attrs) {
+    public WaveView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         init();
     }
 
-    public VisualizerView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public WaveView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init();
     }
