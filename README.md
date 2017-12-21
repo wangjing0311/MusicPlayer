@@ -2,7 +2,12 @@
 动感音乐播放器
 
 ## 演示图片
-<img src="https://github.com/wangjing0311/MusicPlayer/blob/master/app/demoImg/music_player_img.mp4"/>
+<img src="https://github.com/wangjing0311/MusicPlayer/blob/master/app/demoImg/1.music_player_main.jpg"/>
+<img src="https://github.com/wangjing0311/MusicPlayer/blob/master/app/demoImg/2.选择要播放的文件.jpg"/>
+<img src="https://github.com/wangjing0311/MusicPlayer/blob/master/app/demoImg/3.Fftp频率波形播放.jpg"/>
+<img src="https://github.com/wangjing0311/MusicPlayer/blob/master/app/demoImg/4.Wave心电图波形播放.jpg"/>
+<img src="https://github.com/wangjing0311/MusicPlayer/blob/master/app/demoImg/5.停止播放.jpg"/>
+<img src="https://github.com/wangjing0311/MusicPlayer/blob/master/app/demoImg/录屏：播放整体过程.mp4"/>
 
 ## 主要波形显示代码：
 ```java
