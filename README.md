@@ -2,7 +2,7 @@
 动感音乐播放器
 
 ## 演示图片
-<img src="https://github.com/wangjing0311/MusicPlayer/app/demoImg/music_player_img.mp4"/>
+<img src="https://github.com/wangjing0311/MusicPlayer/blob/master/app/demoImg/music_player_img.mp4"/>
 
 ## 主要波形显示代码：
 ```java
